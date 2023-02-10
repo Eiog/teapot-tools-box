@@ -6,6 +6,7 @@ const handleValidate = () => {
 
     return uToast.value.show({ type: 'default', msg: '不能为空' })
 }
+// console.log('ULoadingIcon'.match(/([A-Z])([a-z]+)/g))
 </script>
 
 <template>
