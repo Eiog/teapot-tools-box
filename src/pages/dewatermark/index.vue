@@ -11,18 +11,12 @@ const handleValidate = () => {
 
 <template>
   <div hfull flex flex-col p3 gap3>
-    <div>
-      <nut-input
-        v-model="inputValue"
-        placeholder="请输入文本"
-      />
-    </div>
-    <div>
-      <u-button type="primary" text="解析" @click="handleValidate" />
-    </div>
-    <u-toast ref="uToast">
-      1
-    </u-toast>
+    <nut-input
+      v-model="inputValue"
+      placeholder="请输入文本"
+    />
+    <u-button type="primary" text="解析" @click="handleValidate" />
+    <u-toast ref="uToast" />
   </div>
 </template>
 

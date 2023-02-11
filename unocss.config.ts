@@ -7,9 +7,6 @@ import {
 } from 'unocss'
 import presetWeapp from 'unocss-preset-weapp'
 import {
-  defaultAttributes,
-  defaultIgnoreNonValuedAttributes,
-  transformerAttributify,
   transformerClass,
 } from 'unocss-preset-weapp/transformer'
 export default defineConfig({
@@ -44,15 +41,14 @@ export default defineConfig({
   ],
   transformers: [
     transformerDirectives(),
-    transformerAttributify({
-      nonValuedAttribute: true,
-      classPrefix: 'we-',
-      attributes: [...defaultAttributes, 'w', 'h'],
-      ignoreNonValuedAttributes: [
-        ...defaultIgnoreNonValuedAttributes,
-        'flex-center',
-      ],
-    }),
+    // transformerAttributify({
+    //   nonValuedAttribute: true,
+    //   classPrefix: 'we-',
+    //   ignoreNonValuedAttributes: [
+    //     'text',
+    //     'flex-center',
+    //   ],
+    // }),
     transformerClass(),
   ],
 })
