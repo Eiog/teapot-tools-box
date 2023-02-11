@@ -1,5 +1,9 @@
 <script setup lang='ts'>
 import type { ComponentInternalInstance } from 'vue'
+import UButton from 'uview-plus/components/u-button/u-button.vue'
+import UToast from 'uview-plus/components/u-toast/u-toast.vue'
+import NutInput from '~nutui/input/index.vue'
+import DefaultMenu from '~/components/DefaultMenu.vue'
 const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const inputValue = ref('')
 const handleValidate = () => {
@@ -11,12 +15,13 @@ const handleValidate = () => {
 
 <template>
   <div hfull flex flex-col p3 gap3>
-    <nut-input
+    <NutInput
       v-model="inputValue"
       placeholder="请输入文本"
     />
-    <u-button type="primary" text="解析" @click="handleValidate" />
-    <u-toast ref="uToast" />
+    <UButton type="primary" text="解析" @click="handleValidate" />
+    <UToast ref="uToast" />
+    <DefaultMenu />
   </div>
 </template>
 

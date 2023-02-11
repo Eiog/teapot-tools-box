@@ -72,6 +72,8 @@ export default defineConfig(() => {
     resolve: {
       alias: {
         '~': resolve(__dirname, './src'), // 路径别名
+        '~nutui': resolve(__dirname, './node_modules/uni-nutui/components/sky-nutui/packages/__VUE'),
+        '~uview': resolve(__dirname, './node_modules/uview-plus/components'),
       },
     },
     server: {
