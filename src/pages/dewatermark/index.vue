@@ -1,10 +1,10 @@
 <script setup lang='ts'>
-const uToast = ref()
+import type { ComponentInternalInstance } from 'vue'
+const { proxy } = getCurrentInstance() as ComponentInternalInstance
 const inputValue = ref('')
 const handleValidate = () => {
   if (!inputValue.value)
-
-    return uToast.value.show({ type: 'default', msg: '不能为空' })
+    return proxy?.$refs.uToast.show({ type: 'default', message: '不能为空' })
 }
 // console.log('ULoadingIcon'.match(/([A-Z])([a-z]+)/g))
 </script>
@@ -18,9 +18,11 @@ const handleValidate = () => {
       />
     </div>
     <div>
-      <u-button type="primary" text="解析" />
+      <u-button type="primary" text="解析" @click="handleValidate" />
     </div>
-    <!-- <u-toast ref="uToast" /> -->
+    <u-toast ref="uToast">
+      1
+    </u-toast>
   </div>
 </template>
 
