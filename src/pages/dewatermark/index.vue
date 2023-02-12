@@ -4,12 +4,24 @@ import UButton from 'uview-plus/components/u-button/u-button.vue'
 import UToast from 'uview-plus/components/u-toast/u-toast.vue'
 import NutInput from '~nutui/input/index.vue'
 import DefaultMenu from '~/components/DefaultMenu.vue'
-const { proxy } = getCurrentInstance() as ComponentInternalInstance
+const $this = getCurrentInstance() as ComponentInternalInstance
 const inputValue = ref('')
+const result = ref<{ title: string; cover: string; url: string }>()
+const getUrl = async () => {
+  try {
+    const res = await get('/', { url: inputValue.value })
+    result.value = res as any
+  }
+  catch (error) {
+
+  }
+}
 const handleValidate = () => {
   if (!inputValue.value)
-    return proxy?.$refs.uToast.show({ type: 'default', message: '不能为空' })
+    return $this.proxy?.$refs.uToast.show({ type: 'default', message: '不能为空' })
+  getUrl()
 }
+
 // console.log('ULoadingIcon'.match(/([A-Z])([a-z]+)/g))
 </script>
 
