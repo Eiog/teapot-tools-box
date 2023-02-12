@@ -7,7 +7,7 @@ import 'uno.css'
 import './Interceptor'
 export function createApp() {
   const app = createSSRApp(App)
-  app.use(store).use(i18n).use(uviewPlus)
+  app.use(store).use(i18n).use(uviewPlus as any)
   return {
     app,
   }

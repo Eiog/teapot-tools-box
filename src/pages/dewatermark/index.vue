@@ -3,14 +3,14 @@ import type { ComponentInternalInstance } from 'vue'
 import UButton from 'uview-plus/components/u-button/u-button.vue'
 import UToast from 'uview-plus/components/u-toast/u-toast.vue'
 import NutInput from '~nutui/input/index.vue'
-import DefaultMenu from '~/components/DefaultMenu.vue'
-const $this = getCurrentInstance() as ComponentInternalInstance
+const { proxy: $this } = getCurrentInstance() as ComponentInternalInstance
 const inputValue = ref('')
 const result = ref<{ title: string; cover: string; url: string }>()
 const getUrl = async () => {
   try {
     const res = await get('/', { url: inputValue.value })
     result.value = res as any
+    $this?.$refs.uToast.show({ type: 'success', message: '成功' })
   }
   catch (error) {
 
@@ -18,7 +18,7 @@ const getUrl = async () => {
 }
 const handleValidate = () => {
   if (!inputValue.value)
-    return $this.proxy?.$refs.uToast.show({ type: 'default', message: '不能为空' })
+    return $this?.$refs.uToast.show({ type: 'default', message: '不能为空' })
   getUrl()
 }
 
@@ -33,7 +33,7 @@ const handleValidate = () => {
     />
     <UButton type="primary" text="解析" @click="handleValidate" />
     <UToast ref="uToast" />
-    <DefaultMenu />
+    <div wfull flex-1 />
   </div>
 </template>
 
