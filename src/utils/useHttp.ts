@@ -7,7 +7,7 @@ BASE_URL = '/'
 // #endif
 // #ifdef MP
 if (process.env.NODE_ENV === 'development')
-  BASE_URL = 'https://mock.apifox.cn/m1/1199247-0-default'
+  BASE_URL = 'http://158.247.218.144:3612/'
 else
   BASE_URL = '/'
 

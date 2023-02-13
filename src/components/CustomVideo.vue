@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 const props = defineProps<{
-  src: string
+  id: string
+  src?: string
   autoplay?: boolean
   loop?: boolean
   muted?: boolean
@@ -37,26 +38,34 @@ const props = defineProps<{
   header?: AnyObject
 }>()
 const emit = defineEmits<{
-  (e: 'play', ev: unknown): void
-  (e: 'pause', ev: unknown): void
-  (e: 'ended', ev: unknown): void
-  (e: 'timeupdate', ev: { detail: { currentTime?: number; duration: number } }): void
-  (e: 'fullscreenchange', ev: unknown): void
-  (e: 'waiting', ev: unknown): void
-  (e: 'error', ev: unknown): void
-  (e: 'progress', ev: unknown): void
-  (e: 'loadeddata', ev: unknown): void
-  (e: 'loadstart', ev: unknown): void
-  (e: 'seeked', ev: unknown): void
-  (e: 'seeking', ev: unknown): void
-  (e: 'loadedmetadata', ev: unknown): void
-  (e: 'fullscreenclick', ev: unknown): void
-  (e: 'controlstoggle', ev: unknown): void
+  (e: 'play', ev: Event): void
+  (e: 'pause', ev: Event): void
+  (e: 'ended', ev: Event): void
+  (e: 'timeupdate', ev: Event | { detail: { currentTime?: number; duration: number } }): void
+  (e: 'fullscreenchange', ev: Event): void
+  (e: 'waiting', ev: Event): void
+  (e: 'error', ev: Event): void
+  (e: 'progress', ev: Event): void
+  (e: 'loadeddata', ev: Event): void
+  (e: 'loadstart', ev: Event): void
+  (e: 'seeked', ev: Event): void
+  (e: 'seeking', ev: Event): void
+  (e: 'loadedmetadata', ev: Event): void
+  (e: 'fullscreenclick', ev: Event): void
+  (e: 'controlstoggle', ev: Event): void
 }>()
+const videoRef = ref()
+onMounted(() => {
+  videoRef.value = uni.createVideoContext(props.id)
+})
+defineExpose({
+  videoContext: videoRef.value,
+})
 </script>
 
 <template>
   <video
+    :id="props.id"
     :src="props.src"
     :autoplay="props.autoplay"
     :loop="props.loop"
@@ -65,6 +74,48 @@ const emit = defineEmits<{
     :duration="props.duration"
     :controls="props.controls"
     :danmu-list="props.danmuList"
+    :danmu-btn="props.danmuBtn"
+    :enable-danmu="props.enableDanmu"
+    :page-gesture="props.pageGesture"
+    :direction="props.direction"
+    :show-progress="props.showProgress"
+    :show-fullscreen-btn="props.showFullscreenBtn"
+    :show-play-btn="props.showPlayBtn"
+    :show-center-play="props.showCenterPlayBtn"
+    :show-loading="props.showLoading"
+    :enable-progress-gesture="props.enableProgressGesture"
+    :object-fit="props.objectFit"
+    :poster="props.poster"
+    :show-mute-btn="props.showMuteBtn"
+    :title="props.title"
+    :play-btn-position="props.playBtnPosition"
+    :mobilenet-hint-type="props.mobilenetHintType"
+    :enable-play-gesture="props.enablePlayGesture"
+    :auto-pause-if-navigate="props.autoPauseIfNavigate"
+    :auto-pause-if-open-native="props.autoPauseIfOpenNative"
+    :vslide-gesture="props.vslideGesture"
+    :vslide-gesture-in-fullscreen="props.vslideGestureInFullscreen"
+    :ad-unit-id="props.adUnitId"
+    :poster-for-crawler="props.posterForCrawler"
+    :codec="props.codec"
+    :http-cache="props.httpCache"
+    :play-strategy="props.playStrategy"
+    :header="props.header"
+    @play="emit('play', $event)"
+    @pause="emit('pause', $event)"
+    @ended="emit('ended', $event)"
+    @timeupdate="emit('timeupdate', $event)"
+    @fullscreenchange="emit('fullscreenchange', $event)"
+    @waiting="emit('waiting', $event)"
+    @error="emit('error', $event)"
+    @progress="emit('progress', $event)"
+    @loadeddata="emit('loadeddata', $event)"
+    @loadstart="emit('loadstart', $event)"
+    @seeked="emit('seeked', $event)"
+    @seeking="emit('seeking', $event)"
+    @loadedmetadata="emit('loadedmetadata', $event)"
+    @fullscreenclick="emit('fullscreenclick', $event)"
+    @controlstoggle="emit('controlstoggle', $event)"
   />
 </template>
 
