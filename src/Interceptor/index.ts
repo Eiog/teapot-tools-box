@@ -1,7 +1,7 @@
 // request拦截器
 uni.addInterceptor('request', {
   invoke(args: UniApp.RequestOptions) {
-    uni.showLoading({ title: '加载中' })
+    uni.showLoading({ title: '请求中' })
     args.header = {
       ...args.header,
       token: 'token',
