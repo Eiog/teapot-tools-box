@@ -33,5 +33,9 @@ page {
   height: 100%;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+}
+view{
+  box-sizing: border-box;
 }
 </style>

@@ -2,13 +2,15 @@
 import type { ComponentInternalInstance } from 'vue'
 import UToast from 'uview-plus/components/u-toast/u-toast.vue'
 const { proxy: $this } = getCurrentInstance() as ComponentInternalInstance
-const inputValue = ref('0.51 DHV:/ 铁锅炖大鹅😍# 翻唱歌曲 # 唱歌 # 热门音乐🔥  https://v.douyin.com/BQa72SD/ 复制此链接，打开Dou音搜索，直接观看视频！')
+const inputValue = ref('')
 const result = ref<{ title: string; cover: string; url: string }>()
 const getUrl = async () => {
   try {
     const res = await get('/', { url: inputValue.value })
     result.value = res as any
-    uni.showToast({ title: '成功' })
+    if (res.url)
+      return uni.showToast({ title: '解析成功', icon: 'success' })
+    return uni.showToast({ title: '解析失败，请重试', icon: 'error' })
     // $this?.$refs.uToast.show({ type: 'success', message: '成功' })
   }
   catch (error) {
@@ -54,32 +56,47 @@ const handleDownload = async () => {
     return
   uni.downloadFile({
     url: result.value.url,
-    success: (res) => {
-      console.log(res)
+    success: ({ tempFilePath }) => {
+      if (tempFilePath) {
+        saveFile(tempFilePath).then((res) => {
+          console.log(res)
+          uni.showToast({ title: '保存成功', icon: 'success' })
+        })
+      }
     },
     fail: (err) => {
       console.log(err)
+
+      uni.showToast({ title: '保存失败', icon: 'error' })
     },
   })
+}
+const handleClear = () => {
+  inputValue.value = ''
 }
 // console.log('ULoadingIcon'.match(/([A-Z])([a-z]+)/g))
 </script>
 
 <template>
   <div hfull flex flex-col p3 gap3>
-    <div>
+    <div wfull flex items-center bg-gray1 px1 py2 rounded-md>
       <input
         v-model="inputValue"
-        placeholder="请输入文本"
+        flex-1
+        placeholder="请输入分享链接"
       >
+      <button v-if="!!inputValue" size="mini" @click="handleClear">
+        清空
+      </button>
     </div>
+
     <div>
       <button type="primary" @click="handleValidate">
         解析
       </button>
     </div>
     <UToast ref="uToast" />
-    <div v-if="result" wfull flex-1 flex-col gap5>
+    <div v-if="result?.url" wfull flex-1 flex-col gap5>
       <video id="dy-video" wfull :src="result?.url" :header="{ Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' }" />
       <div>
         <button @click="handleDownload">
